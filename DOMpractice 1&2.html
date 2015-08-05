@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <title></title>
+    <style>
+        .question2{
+            background-color: yellow;
+
+        }
+
+
+    </style>
+</head>
+<body>
+  <div id="enter">A report or account is any informational work (usually of writing, speech, television, or film) made with the specific intention of relaying information or recounting certain events in a widely presentable form.[1]
+      Written reports are documents which present focused, salient content to a specific audience. Reports are often used to display the result of an experiment, investigation, or inquiry. The audience may be public or private, an individual or the public in general. Reports are used in government, business, education, science, and other fields.
+      Reports use features such as graphics, images, voice, or specialized vocabulary in order to persuade that specific audience to undertake an action. One of the most common formats for presenting reports is IMRAD: Introduction, Methods, Results and Discussion. This structure is standard for the genre because it mirrors the traditional publication of scientific research and summons the ethos and credibility of that discipline. Reports are not required to follow this pattern, and may use alternative patterns like the problem-solution format.
+      Additional elements often used to persuade readers include: headings to indicate topics, to more complex formats including charts, tables, figures, pictures, tables of contents, abstracts,and nouns summaries, appendices, footnotes, hyperlinks, and references.</div>
+  <input type="text">
+  <br>
+
+</body>
+<script>
+
+            $("input").on('change', function(){
+                var replace = $("input").val()
+                var words = new RegExp(replace,"gi");
+                var div = $('#enter').text();
+                var newdiv= div.replace(words, '<span class="question2"><b>' + replace +'</b></span>' );
+
+                  $("#enter").html(newdiv);
+            });
+
+
+
+
+</script>
+<script>
+    var ul = document.getElementsByClassName('content')[0].getElementsByTagName('ul');
+    console.log(ul);
+    var schengenmember = [],EUmember = [];
+
+
+    createarray(ul[0].children,schengenmember);
+    createarray(ul[1].children,EUmember);
+
+
+    function createarray(elementlist,array){
+        elementlist = Array.prototype.slice.call(elementlist);
+        elementlist.forEach(function(ele){
+            array.push(ele.textContent);
+        })
+    }
+
+    var yearjoinEU = {};
+    EUmember.forEach(function(ele){
+        yearjoinEU[ele.slice(0,-6)] = ele.slice(-5,-1);
+
+    });
+    console.log(yearjoinEU);
+
+
+    var schengen = {
+
+        EUCountries:yearjoinEU,
+        SchenCountries:schengenmember,
+        getCountries: function(start,till){
+            var result = [];
+            var countries = this.EUCountries;
+            for(var eachcountry in countries){
+                if(countries[eachcountry]>= start && countries[eachcountry]<=till){
+                    result.push(eachcountry);
+                }
+            }
+            return result;
+        }
+
+    };
+    console.log(schengen);
+    console.log(schengen.getCountries(1930,1980));
+</script>
+
+</html>

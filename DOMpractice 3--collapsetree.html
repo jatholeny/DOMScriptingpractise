@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <title></title>
+    <style>
+        .show{
+
+
+        }
+        span{
+            display: block;
+        }
+        .hide{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+        <div>
+            <div>
+                <span>INFO</span>
+            </div>
+            <div>
+                <span>INFO</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>INFO</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>INFO</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>INFO</span>
+            </div>
+        </div>
+</body>
+<div id="tree"></div>
+</html>
+<script>
+
+    var j = 0;
+
+    function showtree(ele) {
+        j++;
+        console.log(j);
+        if(ele.children().length <= 0) {
+            console.log('there is no child anymore');
+            j--;
+            return undefined
+        }else{
+
+            for(var i =0; i < ele.children().length; i++){
+                var child = $(ele.children()[i]);
+
+                if(child.attr('id') =='tree') {
+                    j--;
+                    console.log('we find the end! break');
+                    addevent();
+                    break
+                };
+                if(child.children().length > 0){
+                    addinnerhtml(child);
+                    console.log("still has child", j,child.prop("tagName"));
+                    showtree(child);
+                    i++;
+                    if(i +1 ==ele.children().length){
+                        j--;
+                    }
+                }else if(child.children().length <= 0){
+                    addinnerhtml(child);
+                    console.log("no child",j,child.prop("tagName"));
+                    i++;
+                    j--;
+                };
+            };
+        };
+    };
+    function addinnerhtml(element){
+        element.css('margin-left',50+'px');
+        element.attr('class',"show");
+        element.before( '<span class="tag">' +'[-]'+ element.prop("tagName") + '</span>' );
+
+    }
+
+    function addevent(){
+        $("span[class='tag']").on('click', function(){
+            var a =$(this).next().hasClass("show")? "hide":"show";
+            $(this).next().attr('class', a);
+            var b=$(this).text()==='[-]'+ $(this).next().prop("tagName") ? '[+]'+ $(this).next().prop("tagName") : '[-]'+ $(this).next().prop("tagName");
+            $(this).text(b);
+        });
+    }
+
+    var body = $('body');
+    showtree(body);
+</script>
